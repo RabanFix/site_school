@@ -8,14 +8,15 @@ from database import db
 from models import Vacancy, Resume, Application
 from config import config
 from datetime import datetime
-from flask import Flask
+from flask import Flask, render_template
 
 # Вот эту строку ищет Gunicorn! Без неё ничего не будет работать.
 app = Flask(__name__) 
 
 @app.route('/')
 def home():
-    return "Hello"
+    # Замените 'index.html' на название вашего главного файла
+    return render_template('index.html') 
 
 
 # ───────────────────────── helpers ──────────────────────────────
