@@ -8,14 +8,6 @@ from database import db
 from models import Vacancy, Resume, Application
 from config import config
 from datetime import datetime
-from flask import Flask, render_template
-
-# Вот эту строку ищет Gunicorn! Без неё ничего не будет работать.
-app = Flask(__name__) 
-
-@app.route('/')
-def index():
-    return render_template('index.html') 
 
 
 # ───────────────────────── helpers ──────────────────────────────
@@ -156,6 +148,10 @@ def create_app(config_name='default'):
 
     register_routes(app)
     return app
+
+
+# Gunicorn ищет объект `app` в этом модуле (команда: gunicorn app:app)
+app = create_app(os.environ.get('FLASK_CONFIG', 'default'))
 
 
 # ───────────────────────── routes ───────────────────────────────
