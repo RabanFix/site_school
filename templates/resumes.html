@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% block title %}Резюме | Школа №147{% endblock %}
+
+{% block content %}
+
+<div class="page-hero page-hero--blue">
+    <div class="container">
+        <h1 class="page-hero__title">База резюме</h1>
+        <p class="page-hero__sub">Соискатели, готовые к работе</p>
+    </div>
+</div>
+
+<div class="container" style="padding-top:30px; padding-bottom:50px;">
+
+    <div class="list-header">
+        <div class="jobs-count">
+            Найдено: <strong>{{ pagination.total }}</strong> резюме
+        </div>
+        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+            <form method="get" action="{{ url_for('resumes') }}" class="sort-form">
+                <input type="text" name="q" value="{{ query }}"
+                       class="form-input form-input--sm"
+                       placeholder="Поиск по имени, должности...">
+                <button type="submit" class="btn btn--outline btn--sm">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+            <form method="get" action="{{ url_for('resumes') }}" class="sort-form">
+                <input type="hidden" name="q" value="{{ query }}">
+                <select name="sort" class="form-select form-select--sm"
+                        onchange="this.form.submit()">
+                    {% for opt in sort_options %}
+                    <option value="{{ opt.value }}"
+                            {{ 'selected' if opt.selected else '' }}>
+                        {{ opt.label }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </form>
+            <a href="{{ url_for('add_resume') }}" class="btn btn--accent btn--sm">
+                <i class="fas fa-plus"></i> Добавить резюме
+            </a>
+        </div>
+    </div>
+
+    {% if resumes %}
+    <div class="resume-grid">
+        {% for r in resumes %}
+        <div class="resume-card">
+            <div class="resume-card__header">
+                <div class="resume-card__avatar"
+                     style="background: {{ r.avatar_color }};">
+                    {{ r.first_name[0] }}{{ r.last_name[0] }}
+                </div>
+                <div>
+                    <div class="resume-card__name">{{ r.full_name }}</div>
+                    <div class="resume-card__position">{{ r.position }}</div>
+                </div>
+            </div>
+
+            <div class="resume-card__meta">
+                {% if r.age %}
+                <span><i class="fas fa-user"></i> {{ r.age }} лет</span>
+                {% endif %}
+                <span><i class="fas fa-briefcase"></i> {{ r.experience }}</span>
+                {% if r.education %}
+                <span><i class="fas fa-graduation-cap"></i> {{ r.education }}</span>
+                {% endif %}
+                <span><i class="fas fa-map-marker-alt"></i> {{ r.city }}</span>
+            </div>
+
+            {% if r.about %}
+            <p class="resume-card__about">
+                {{ r.about[:150] }}{% if r.about|length > 150 %}...{% endif %}
+            </p>
+            {% endif %}
+
+            {% if r.skills_list %}
+            <div class="resume-card__skills">
+                {% for skill in r.skills_list[:5] %}
+                <span class="skill-tag">{{ skill }}</span>
+                {% endfor %}
+                {% if r.skills_list|length > 5 %}
+                <span class="skill-tag skill-tag--more">
+                    +{{ r.skills_list|length - 5 }}
+                </span>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            <div class="resume-card__footer">
+                <div class="resume-card__salary">{{ r.salary_display }}</div>
+                <div class="resume-card__actions">
+                    <a href="{{ url_for('resume_detail', resume_id=r.id) }}"
+                       class="btn btn--outline btn--sm">Подробнее</a>
+                    <a href="mailto:{{ r.email }}" class="btn btn--primary btn--sm">
+                        <i class="fas fa-envelope"></i> Пригласить
+                    </a>
+                </div>
+            </div>
+            <div class="resume-card__date">{{ r.posted_display }}</div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if pagination.pages > 1 %}
+    <div class="pagination">
+        {% if pagination.has_prev %}
+        <a href="{{ url_for('resumes', page=pagination.prev_num, q=query, sort=sort_by) }}"
+           class="page-btn"><i class="fas fa-chevron-left"></i></a>
+        {% endif %}
+        {% for p in pagination.iter_pages() %}
+            {% if p %}
+            <a href="{{ url_for('resumes', page=p, q=query, sort=sort_by) }}"
+               class="page-btn {{ 'page-btn--active' if p == pagination.page else '' }}">
+                {{ p }}
+            </a>
+            {% else %}
+            <span class="page-btn page-btn--dots">...</span>
+            {% endif %}
+        {% endfor %}
+        {% if pagination.has_next %}
+        <a href="{{ url_for('resumes', page=pagination.next_num, q=query, sort=sort_by) }}"
+           class="page-btn"><i class="fas fa-chevron-right"></i></a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% else %}
+    <div class="empty-state">
+        <div class="empty-state__icon">📄</div>
+        <h3>Резюме не найдены</h3>
+        <p>Будьте первым —
+           <a href="{{ url_for('add_resume') }}">добавьте своё резюме</a></p>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,110 @@
+{% extends 'base.html' %} {% block title %}{{ resume.full_name }} | Школа №147{%
+endblock %} {% block content %}
+<div class="container" style="padding-top: 30px; padding-bottom: 50px">
+  <nav class="breadcrumb">
+    <a href="{{ url_for('index') }}">Главная</a>
+    <span>/</span>
+    <a href="{{ url_for('resumes') }}">Резюме</a>
+    <span>/</span>
+    <span>{{ resume.full_name }}</span>
+  </nav>
+
+  <div class="detail-layout">
+    <div class="detail-main">
+      <div class="detail-card detail-card--hero">
+        <div class="resume-hero">
+          <div
+            class="resume-hero__avatar"
+            style="background: {{ resume.avatar_color }};"
+          >
+            {{ resume.first_name[0] }}{{ resume.last_name[0] }}
+          </div>
+          <div>
+            <h1 class="resume-hero__name">{{ resume.full_name }}</h1>
+            <div class="resume-hero__position">{{ resume.position }}</div>
+            <div class="resume-hero__salary">
+              {{ resume.salary_display }}/мес.
+            </div>
+            <div class="detail-hero__meta">
+              {% if resume.age %}<span
+                ><i class="fas fa-user"></i> {{ resume.age }} лет</span
+              >{% endif %}
+              <span
+                ><i class="fas fa-briefcase"></i> {{ resume.experience }}</span
+              >
+              <span
+                ><i class="fas fa-map-marker-alt"></i> {{ resume.city }}</span
+              >
+              <span
+                ><i class="fas fa-clock"></i> {{ resume.posted_display }}</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% if resume.about %}
+      <div class="detail-card">
+        <h2 class="detail-section-title">👤 О себе</h2>
+        <p class="detail-text">{{ resume.about }}</p>
+      </div>
+      {% endif %} {% if resume.education %}
+      <div class="detail-card">
+        <h2 class="detail-section-title">🎓 Образование</h2>
+        <p class="detail-text">{{ resume.education }}</p>
+      </div>
+      {% endif %} {% if resume.skills_list %}
+      <div class="detail-card">
+        <h2 class="detail-section-title">💡 Навыки</h2>
+        <div class="resume-skills-big">
+          {% for skill in resume.skills_list %}
+          <span class="skill-tag skill-tag--lg">{{ skill }}</span>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+
+    <aside class="detail-sidebar">
+      <div class="sidebar-card">
+        <h3 class="sidebar-card__title">
+          <i class="fas fa-envelope"></i> Связаться
+        </h3>
+        <div class="contact-info">
+          <div class="contact-info__name">{{ resume.full_name }}</div>
+          {% if resume.phone %}
+          <a href="tel:{{ resume.phone }}" class="contact-info__phone">
+            <i class="fas fa-phone"></i> {{ resume.phone }}
+          </a>
+          {% endif %}
+          <a href="mailto:{{ resume.email }}" class="contact-info__phone">
+            <i class="fas fa-envelope"></i> {{ resume.email }}
+          </a>
+        </div>
+        <a
+          href="mailto:{{ resume.email }}"
+          class="btn btn--primary btn--block mt-2"
+        >
+          <i class="fas fa-envelope"></i> Написать письмо
+        </a>
+      </div>
+
+      <div class="sidebar-card">
+        <h3 class="sidebar-card__title">📊 Информация</h3>
+        <ul class="info-list">
+          <li><strong>Опыт:</strong><span>{{ resume.experience }}</span></li>
+          <li><strong>Город:</strong><span>{{ resume.city }}</span></li>
+          {% if resume.education %}
+          <li>
+            <strong>Образование:</strong><span>{{ resume.education }}</span>
+          </li>
+          {% endif %}
+          <li>
+            <strong>Зарплата:</strong><span>{{ resume.salary_display }}</span>
+          </li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</div>
+{% endblock %}

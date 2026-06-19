@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% block title %}{{ page_title }} | Школа №147{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-top:30px; padding-bottom:50px;">
+
+    <nav class="breadcrumb">
+        <a href="{{ url_for('index') }}">Главная</a>
+        <span>/</span>
+        <a href="{{ url_for('vacancies') }}">Вакансии</a>
+        <span>/</span>
+        <span>{{ page_title }}</span>
+    </nav>
+
+    <div class="form-card" style="max-width:800px; margin:0 auto;">
+        <div class="form-card__header">
+            <div class="form-card__icon">{{ form_icon }}</div>
+            <div>
+                <h1 class="form-card__title">{{ page_title }}</h1>
+                <div class="form-card__sub">Портал летней подработки</div>
+            </div>
+        </div>
+
+        <form method="post" action="{{ form_action }}">
+            <div class="form-grid">
+
+                <div class="form-group form-group--full">
+                    <label class="form-label">
+                        Название должности <span class="req">*</span>
+                    </label>
+                    <input class="form-input" type="text" name="title"
+                           required value="{{ form_data.title }}"
+                           placeholder="Например: Курьер">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Категория <span class="req">*</span></label>
+                    <select class="form-select" name="category" required>
+                        <option value="">Выберите...</option>
+                        {% for opt in category_options %}
+                        <option value="{{ opt.value }}"
+                                {{ 'selected' if opt.selected else '' }}>
+                            {{ opt.label }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Тип занятости <span class="req">*</span></label>
+                    <select class="form-select" name="job_type" required>
+                        <option value="">Выберите...</option>
+                        {% for opt in job_type_options %}
+                        <option value="{{ opt.value }}"
+                                {{ 'selected' if opt.selected else '' }}>
+                            {{ opt.label }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Зарплата от (руб.)</label>
+                    <input class="form-input" type="number" name="salary_from"
+                           min="0" value="{{ form_data.salary_from }}"
+                           placeholder="25000">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Зарплата до (руб.)</label>
+                    <input class="form-input" type="number" name="salary_to"
+                           min="0" value="{{ form_data.salary_to }}"
+                           placeholder="50000">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Требуемый опыт</label>
+                    <select class="form-select" name="experience">
+                        {% for opt in experience_options %}
+                        <option value="{{ opt.value }}"
+                                {{ 'selected' if opt.selected else '' }}>
+                            {{ opt.label }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Образование</label>
+                    <input class="form-input" type="text" name="education"
+                           value="{{ form_data.education }}"
+                           placeholder="Не имеет значения">
+                </div>
+
+                <div class="form-group form-group--full">
+                    <label class="form-label">Описание <span class="req">*</span></label>
+                    <textarea class="form-input form-input--textarea"
+                              name="description" required
+                              placeholder="Краткое описание вакансии...">{{ form_data.description }}</textarea>
+                </div>
+
+                <div class="form-group form-group--full">
+                    <label class="form-label">Обязанности <span class="req">*</span></label>
+                    <textarea class="form-input form-input--textarea"
+                              name="duties" required
+                              placeholder="Каждая обязанность с новой строки...">{{ form_data.duties }}</textarea>
+                </div>
+
+                <div class="form-group form-group--full">
+                    <label class="form-label">Требования <span class="req">*</span></label>
+                    <textarea class="form-input form-input--textarea"
+                              name="requirements" required
+                              placeholder="Каждое требование с новой строки...">{{ form_data.requirements }}</textarea>
+                </div>
+
+                <div class="form-group form-group--full">
+                    <label class="form-label">Условия работы</label>
+                    <textarea class="form-input form-input--textarea"
+                              name="conditions"
+                              placeholder="График, льготы, отпуск...">{{ form_data.conditions }}</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Контактное лицо</label>
+                    <input class="form-input" type="text" name="contact_name"
+                           value="{{ form_data.contact_name }}"
+                           placeholder="ФИО">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Телефон</label>
+                    <input class="form-input" type="tel" name="contact_phone"
+                           value="{{ form_data.contact_phone }}"
+                           placeholder="+7 (846) ___-__-__">
+                </div>
+
+                <div class="form-group form-group--full">
+                    <div class="checkboxes-row">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="is_featured"
+                                   {{ 'checked' if form_data.is_featured else '' }}>
+                            Рекомендуемая вакансия
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="is_urgent"
+                                   {{ 'checked' if form_data.is_urgent else '' }}>
+                            Срочная вакансия
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+                <a href="{{ url_for('vacancies') }}" class="btn btn--outline">Отмена</a>
+                <button type="submit" class="btn btn--primary btn--lg">
+                    <i class="fas fa-check"></i> {{ submit_label }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

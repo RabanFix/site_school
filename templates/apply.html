@@ -1,0 +1,183 @@
+{% extends 'base.html' %} {% block title %}Отклик на {{ vacancy.title }} | Школа
+№147{% endblock %} {% block content %}
+<div class="container" style="padding-top: 30px; padding-bottom: 50px">
+  <nav class="breadcrumb">
+    <a href="{{ url_for('index') }}">Главная</a>
+    <span>/</span>
+    <a href="{{ url_for('vacancies') }}">Вакансии</a>
+    <span>/</span>
+    <a href="{{ url_for('vacancy_detail', vacancy_id=vacancy.id) }}"
+      >{{ vacancy.title }}</a
+    >
+    <span>/</span>
+    <span>Откликнуться</span>
+  </nav>
+
+  <div class="form-layout">
+    <!-- FORM -->
+    <div class="form-main">
+      <div class="form-card">
+        <div class="form-card__header">
+          <div class="form-card__icon">{{ vacancy.icon }}</div>
+          <div>
+            <h1 class="form-card__title">Отклик на вакансию</h1>
+            <div class="form-card__sub">
+              {{ vacancy.title }} · {{ vacancy.salary_display }}
+            </div>
+          </div>
+        </div>
+
+        <form
+          method="post"
+          action="{{ url_for('apply', vacancy_id=vacancy.id) }}"
+          novalidate
+        >
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Имя <span class="req">*</span></label>
+              <input
+                class="form-input"
+                type="text"
+                name="first_name"
+                required
+                placeholder="Ваше имя"
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label"
+                >Фамилия <span class="req">*</span></label
+              >
+              <input
+                class="form-input"
+                type="text"
+                name="last_name"
+                required
+                placeholder="Ваша фамилия"
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email <span class="req">*</span></label>
+              <input
+                class="form-input"
+                type="email"
+                name="email"
+                required
+                placeholder="email@example.com"
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label"
+                >Телефон <span class="req">*</span></label
+              >
+              <input
+                class="form-input"
+                type="tel"
+                name="phone"
+                required
+                placeholder="+7 (___) ___-__-__"
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Опыт работы</label>
+              <select class="form-select" name="experience">
+                <option value="">Выберите...</option>
+                <option value="Без опыта">Без опыта</option>
+                <option value="До 1 года">До 1 года</option>
+                <option value="1–3 года">1–3 года</option>
+                <option value="3–5 лет">3–5 лет</option>
+                <option value="Более 5 лет">Более 5 лет</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Образование</label>
+              <select class="form-select" name="education">
+                <option value="">Выберите...</option>
+                <option value="Учащийся (до 9 класса)">Учащийся (до 9 класса)</option>
+                <option value="Основное общее (9 классов)">Основное общее (9 классов)</option>
+                <option value="Среднее общее (11 классов)">Среднее общее (11 классов)</option>
+                <option value="Студент колледжа">Студент колледжа</option>
+              </select>
+            </div>
+            <div class="form-group form-group--full">
+              <label class="form-label">Сопроводительное письмо</label>
+              <textarea
+                class="form-input form-input--textarea"
+                name="cover_letter"
+                placeholder="Расскажите о себе, почему хотите работать на этой должности..."
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <a
+              href="{{ url_for('vacancy_detail', vacancy_id=vacancy.id) }}"
+              class="btn btn--outline"
+            >
+              <i class="fas fa-arrow-left"></i> Назад
+            </a>
+            <button type="submit" class="btn btn--primary btn--lg">
+              <i class="fas fa-paper-plane"></i> Отправить заявку
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside class="form-sidebar">
+      <div class="sidebar-card">
+        <h3 class="sidebar-card__title">📋 Вакансия</h3>
+        <div class="sidebar-vac-info">
+          <div class="sidebar-vac-info__title">{{ vacancy.title }}</div>
+          <div class="sidebar-vac-info__salary">
+            {{ vacancy.salary_display }}
+          </div>
+          <div class="sidebar-vac-info__meta">
+            <span><i class="fas fa-briefcase"></i> {{ vacancy.job_type }}</span>
+            <span
+              ><i class="fas fa-map-marker-alt"></i> {{ vacancy.location
+              }}</span
+            >
+          </div>
+        </div>
+      </div>
+
+      {% if vacancy.contact_name %}
+      <div class="sidebar-card">
+        <h3 class="sidebar-card__title">
+          <i class="fas fa-headset"></i> Контакт
+        </h3>
+        <div class="contact-info">
+          <div class="contact-info__name">{{ vacancy.contact_name }}</div>
+          <div class="contact-info__phone">
+            <i class="fas fa-phone"></i> {{ vacancy.contact_phone }}
+          </div>
+          <div class="contact-info__hours">
+            <i class="fas fa-clock"></i> Пн–Пт 9:00–17:00
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      <div class="sidebar-card">
+        <h3 class="sidebar-card__title">
+          <i class="fas fa-info-circle"></i> Как это работает
+        </h3>
+        <ol
+          style="
+            padding-left: 18px;
+            font-size: 13px;
+            color: var(--gray);
+            line-height: 1.8;
+          "
+        >
+          <li>Заполните форму</li>
+          <li>Нажмите «Отправить заявку»</li>
+          <li>Ждите ответа 2 рабочих дня</li>
+          <li>Собеседование с работодателем</li>
+        </ol>
+      </div>
+    </aside>
+  </div>
+</div>
+{% endblock %}

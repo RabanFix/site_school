@@ -1,0 +1,139 @@
+{% extends 'base.html' %} {% block title %}О школе | Школа №147{% endblock %} {%
+block content %}
+<div class="page-hero page-hero--blue">
+  <div class="container" style="text-align: center">
+    <h1 class="page-hero__title">🏫 О МБОУ Школа №147</h1>
+    <p class="page-hero__sub">городского округа Самара им. П.М. Еськова</p>
+  </div>
+</div>
+
+<div class="container" style="padding-top: 40px; padding-bottom: 50px">
+  <!-- STATS -->
+  <div class="stats-row stats-row--big">
+    <div class="stat-mini stat-mini--big">
+      <div>
+        <div class="stat-mini__val">{{ stats.vacancy_count }}</div>
+        <div class="stat-mini__label">Вакансий</div>
+      </div>
+    </div>
+    <div class="stat-mini stat-mini--big">
+      <div>
+        <div class="stat-mini__val">{{ stats.resume_count }}</div>
+        <div class="stat-mini__label">Резюме</div>
+      </div>
+    </div>
+    <div class="stat-mini stat-mini--big">
+      <div>
+        <div class="stat-mini__val">15</div>
+        <div class="stat-mini__label">Работодателей</div>
+      </div>
+    </div>
+    <div class="stat-mini stat-mini--big">
+      <div>
+        <div class="stat-mini__val">{{ stats.app_count }}</div>
+        <div class="stat-mini__label">Откликов</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-card">
+      <h3><i class="fas fa-school"></i> О портале</h3>
+      <p>
+        Портал летней подработки для учеников МБОУ Школа №147 городского округа Самара имени П.М. Еськова.
+        Мы помогаем нашим школьникам найти безопасную и интересную работу на время летних каникул,
+        получить первый трудовой опыт и заработать карманные деньги.
+      </p>
+    </div>
+    <div class="about-card">
+      <h3><i class="fas fa-info-circle"></i> Информация</h3>
+      <ul class="info-list">
+        <li><strong>Тип:</strong><span>МБОУ (муниципальное)</span></li>
+        <li><strong>Город:</strong><span>Самара</span></li>
+        <li><strong>Уровни:</strong><span>1–11 классы</span></li>
+        <li><strong>Учащихся:</strong><span>~900 человек</span></li>
+        <li><strong>Директор:</strong><span>Иванова О.В.</span></li>
+        <li><strong>Основана:</strong><span>1965 год</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- CONTACTS -->
+  <div class="about-card" style="margin-bottom: 30px">
+    <h3><i class="fas fa-map-marker-alt"></i> Контакты</h3>
+    <div class="contacts-grid">
+      <div class="contact-tile">
+        <div
+          class="contact-tile__icon"
+          style="background: #dbeafe; color: #1d4ed8"
+        >
+          <i class="fas fa-map-marker-alt"></i>
+        </div>
+        <div>
+          <div class="contact-tile__label">Адрес</div>
+          <div class="contact-tile__val">г. Самара, ул. Пятилетки, д. 14</div>
+        </div>
+      </div>
+      <div class="contact-tile">
+        <div
+          class="contact-tile__icon"
+          style="background: #dcfce7; color: #166534"
+        >
+          <i class="fas fa-phone"></i>
+        </div>
+        <div>
+          <div class="contact-tile__label">Телефон</div>
+          <div class="contact-tile__val">+7 (846) 956-47-78</div>
+        </div>
+      </div>
+      <div class="contact-tile">
+        <div
+          class="contact-tile__icon"
+          style="background: #fef3c7; color: #92400e"
+        >
+          <i class="fas fa-envelope"></i>
+        </div>
+        <div>
+          <div class="contact-tile__label">Email</div>
+          <div class="contact-tile__val">shkola147@samara.edu.ru</div>
+        </div>
+      </div>
+      <div class="contact-tile">
+        <div
+          class="contact-tile__icon"
+          style="background: #fce7f3; color: #9d174d"
+        >
+          <i class="fas fa-clock"></i>
+        </div>
+        <div>
+          <div class="contact-tile__label">Режим</div>
+          <div class="contact-tile__val">Пн–Пт: 8:00–18:00</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEAM -->
+  <h2 class="section__title">
+    <i class="fas fa-users" style="color: var(--primary)"></i> Кураторы программы
+  </h2>
+  <div class="team-grid">
+    {% for member in [ {'name':'Иванова
+    О.В.','role':'Директор школы','avatar':'👩','color':'linear-gradient(135deg,#667eea,#764ba2)','phone':'+7
+    (846) 956-47-78'}, {'name':'Петрова А.В.','role':'Куратор по
+    трудоустройству','avatar':'👩‍💼','color':'linear-gradient(135deg,#f093fb,#f5576c)','phone':'job@shkola147.ru'},
+    {'name':'Смирнов В.П.','role':'Социальный
+    педагог','avatar':'👨‍💼','color':'linear-gradient(135deg,#4facfe,#00f2fe)','phone':'+7
+    (846) 956-47-79'}, ] %}
+    <div class="team-card">
+      <div class="team-card__avatar" style="background:{{ member.color }};">
+        {{ member.avatar }}
+      </div>
+      <div class="team-card__name">{{ member.name }}</div>
+      <div class="team-card__role">{{ member.role }}</div>
+      <div class="team-card__contact">{{ member.phone }}</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

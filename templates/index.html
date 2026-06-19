@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% block title %}Главная | Работа в Школе №147 Самары{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <div class="container hero__inner">
+        <div class="hero__badge">
+            <i class="fas fa-star"></i> Официальный портал летней подработки для учеников школы №147
+        </div>
+        <h1 class="hero__title">
+            Найдите подработку<br>на <span class="hero__accent">лето</span> в Самаре
+        </h1>
+        <p class="hero__subtitle">
+            Актуальные вакансии для школьников на летний период от проверенных работодателей
+        </p>
+
+        <form class="search-box" action="{{ url_for('index') }}" method="get">
+            <div class="search-box__input-wrap">
+                <i class="fas fa-search search-box__icon"></i>
+                <input class="search-box__input"
+                       type="text"
+                       name="q"
+                       value="{{ query }}"
+                       placeholder="Должность, специальность..."
+                       autocomplete="off"
+                       id="heroSearchInput">
+                <ul class="search-autocomplete" id="searchAutocomplete"></ul>
+            </div>
+            <div class="search-box__sep"></div>
+            <div class="search-box__input-wrap search-box__input-wrap--sm">
+                <i class="fas fa-map-marker-alt search-box__icon"></i>
+                <input class="search-box__input" type="text" value="Самара" readonly>
+            </div>
+            <button class="btn btn--primary search-box__btn" type="submit">
+                <i class="fas fa-search"></i> Найти
+            </button>
+        </form>
+
+        <div class="hero-cats">
+            {% for cat in categories %}
+            <a href="{{ cat.url }}"
+               class="hero-cat {{ 'hero-cat--active' if cat.active else '' }}">
+                <i class="{{ cat.icon }}"></i> {{ cat.label }}
+            </a>
+            {% endfor %}
+        </div>
+
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <span class="hero-stat__num" data-target="{{ vacancy_count }}">0</span>
+                <span class="hero-stat__label">Вакансий</span>
+            </div>
+            <div class="hero-stat">
+                <span class="hero-stat__num" data-target="{{ resume_count }}">0</span>
+                <span class="hero-stat__label">Резюме</span>
+            </div>
+            <div class="hero-stat">
+                <span class="hero-stat__num" data-target="15">0</span>
+                <span class="hero-stat__label">Работодателей</span>
+            </div>
+            <div class="hero-stat">
+                <span class="hero-stat__num" data-target="120">0</span>
+                <span class="hero-stat__label">Трудоустроено</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if featured %}
+<section class="section section--gray">
+    <div class="container">
+        <h2 class="section__title">
+            <i class="fas fa-star" style="color:var(--accent)"></i>
+            Рекомендуемые вакансии
+        </h2>
+        <div class="featured-grid">
+            {% for v in featured %}
+            <div class="featured-card">
+                <div class="featured-card__icon">{{ v.icon }}</div>
+                <div class="featured-card__body">
+                    <a href="{{ url_for('vacancy_detail', vacancy_id=v.id) }}"
+                       class="featured-card__title">{{ v.title }}</a>
+                    <div class="featured-card__salary">{{ v.salary_display }}</div>
+                    <div class="featured-card__meta">
+                        <span><i class="fas fa-briefcase"></i> {{ v.job_type }}</span>
+                        <span><i class="fas fa-user-graduate"></i> {{ v.experience }}</span>
+                    </div>
+                </div>
+                <a href="{{ url_for('apply', vacancy_id=v.id) }}"
+                   class="btn btn--primary btn--sm">Откликнуться</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<section class="section">
+    <div class="container">
+        <div class="list-header">
+            <h2 class="section__title mb-0">
+                {% if query %}
+                    Результаты: &laquo;{{ query }}&raquo;
+                {% else %}
+                    Все вакансии
+                {% endif %}
+            </h2>
+            <div class="list-header__controls">
+                <form method="get" action="{{ url_for('index') }}" class="sort-form">
+                    <input type="hidden" name="q" value="{{ query }}">
+                    <input type="hidden" name="category" value="{{ category }}">
+                    <select name="sort" class="form-select form-select--sm"
+                            onchange="this.form.submit()">
+                        {% for opt in sort_options %}
+                        <option value="{{ opt.value }}"
+                                {{ 'selected' if opt.selected else '' }}>
+                            {{ opt.label }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </form>
+                <a href="{{ url_for('publish_vacancy') }}" class="btn btn--accent btn--sm">
+                    <i class="fas fa-plus"></i> Добавить вакансию
+                </a>
+            </div>
+        </div>
+
+        {% if vacancies %}
+        <div class="vacancy-list">
+            {% for v in vacancies %}
+                {% include 'partials/vacancy_card.html' %}
+            {% endfor %}
+        </div>
+
+        {% if pagination.pages > 1 %}
+        <div class="pagination">
+            {% if pagination.has_prev %}
+            <a href="{{ url_for('index', page=pagination.prev_num, q=query, category=category, sort=sort_by) }}"
+               class="page-btn"><i class="fas fa-chevron-left"></i></a>
+            {% endif %}
+            {% for p in pagination.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+                {% if p %}
+                <a href="{{ url_for('index', page=p, q=query, category=category, sort=sort_by) }}"
+                   class="page-btn {{ 'page-btn--active' if p == pagination.page else '' }}">
+                    {{ p }}
+                </a>
+                {% else %}
+                <span class="page-btn page-btn--dots">...</span>
+                {% endif %}
+            {% endfor %}
+            {% if pagination.has_next %}
+            <a href="{{ url_for('index', page=pagination.next_num, q=query, category=category, sort=sort_by) }}"
+               class="page-btn"><i class="fas fa-chevron-right"></i></a>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        {% else %}
+        <div class="empty-state">
+            <div class="empty-state__icon">🔍</div>
+            <h3>Вакансии не найдены</h3>
+            <p>Попробуйте изменить запрос или
+               <a href="{{ url_for('index') }}">сбросить фильтры</a></p>
+            <a href="{{ url_for('publish_vacancy') }}" class="btn btn--primary mt-2">
+                <i class="fas fa-plus"></i> Добавить вакансию
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}

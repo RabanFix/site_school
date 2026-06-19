@@ -1,0 +1,163 @@
+{% extends 'base.html' %} {% block title %}Добавить резюме | Школа №147{%
+endblock %} {% block content %}
+<div class="container" style="padding-top: 30px; padding-bottom: 50px">
+  <nav class="breadcrumb">
+    <a href="{{ url_for('index') }}">Главная</a>
+    <span>/</span>
+    <a href="{{ url_for('resumes') }}">Резюме</a>
+    <span>/</span>
+    <span>Добавить</span>
+  </nav>
+
+  <div class="form-card" style="max-width: 800px; margin: 0 auto">
+    <div class="form-card__header">
+      <div class="form-card__icon">📄</div>
+      <div>
+        <h1 class="form-card__title">Добавить резюме</h1>
+        <div class="form-card__sub">Заполните анкету соискателя</div>
+      </div>
+    </div>
+
+    <form method="post" action="{{ url_for('add_resume') }}" novalidate>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Имя <span class="req">*</span></label>
+          <input
+            class="form-input"
+            type="text"
+            name="first_name"
+            required
+            placeholder="Имя"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Фамилия <span class="req">*</span></label>
+          <input
+            class="form-input"
+            type="text"
+            name="last_name"
+            required
+            placeholder="Фамилия"
+          />
+        </div>
+
+        <div class="form-group form-group--full">
+          <label class="form-label">
+            Желаемая должность <span class="req">*</span>
+          </label>
+          <input
+            class="form-input"
+            type="text"
+            name="position"
+            required
+            placeholder="Например: Курьер, Помощник вожатого"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Email <span class="req">*</span></label>
+          <input
+            class="form-input"
+            type="email"
+            name="email"
+            required
+            placeholder="email@example.com"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Телефон</label>
+          <input
+            class="form-input"
+            type="tel"
+            name="phone"
+            placeholder="+7 (___) ___-__-__"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Возраст</label>
+          <input
+            class="form-input"
+            type="number"
+            name="age"
+            min="14"
+            max="18"
+            placeholder="16"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Опыт работы</label>
+          <select class="form-select" name="experience">
+            {% for opt in experience_options %}
+            <option value="{{ opt.value }}">{{ opt.label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Город</label>
+          <input
+            class="form-input"
+            type="text"
+            name="city"
+            value="Самара"
+            placeholder="Самара"
+          />
+        </div>
+
+        <div class="form-group form-group--full">
+          <label class="form-label">Образование</label>
+          <input
+            class="form-input"
+            type="text"
+            name="education"
+            placeholder="Школа, класс"
+          />
+        </div>
+
+        <div class="form-group form-group--full">
+          <label class="form-label">Желаемая зарплата (руб.)</label>
+          <input
+            class="form-input"
+            type="number"
+            name="salary"
+            min="0"
+            placeholder="35000"
+          />
+        </div>
+
+        <div class="form-group form-group--full">
+          <label class="form-label">О себе</label>
+          <textarea
+            class="form-input form-input--textarea"
+            name="about"
+            placeholder="Опыт, достижения, интересы..."
+          ></textarea>
+        </div>
+
+        <div class="form-group form-group--full">
+          <label class="form-label">
+            Навыки <span class="form-hint">(через запятую)</span>
+          </label>
+          <input
+            class="form-input"
+            type="text"
+            name="skills"
+            placeholder="Математика, ЕГЭ, Excel, 1С..."
+          />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <a href="{{ url_for('resumes') }}" class="btn btn--outline">Отмена</a>
+        <button type="submit" class="btn btn--primary btn--lg">
+          <i class="fas fa-save"></i> Сохранить резюме
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

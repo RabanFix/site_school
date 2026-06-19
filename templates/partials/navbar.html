@@ -1,0 +1,92 @@
+<header class="site-header">
+  <div class="top-bar">
+    <div class="container top-bar__inner">
+      <span>
+        <i class="fas fa-phone"></i> +7 (846) 956-47-78 &nbsp;|&nbsp;
+        <i class="fas fa-envelope"></i> shkola147@samara.edu.ru
+      </span>
+      <span>
+        <i class="fas fa-map-marker-alt"></i> Самара, ул. Пятилетки, 14
+      </span>
+    </div>
+  </div>
+
+  <div class="header-main">
+    <div class="container header-main__inner">
+      <a href="{{ url_for('index') }}" class="logo">
+        <div class="logo__icon">🏫</div>
+        <div class="logo__text">
+          <span class="logo__title">Школа №147 | Подработка</span>
+          <span class="logo__sub">Летнее трудоустройство учеников</span>
+        </div>
+      </a>
+
+      <nav class="main-nav">
+        <a
+          href="{{ url_for('index') }}"
+          class="main-nav__link {% if request.endpoint == 'index' %}active{% endif %}"
+        >
+          <i class="fas fa-home"></i> Главная
+        </a>
+        <a
+          href="{{ url_for('vacancies') }}"
+          class="main-nav__link {% if request.endpoint in ['vacancies','vacancy_detail'] %}active{% endif %}"
+        >
+          <i class="fas fa-briefcase"></i> Вакансии
+          <span class="nav-badge">{{ vacancy_count }}</span>
+        </a>
+        <a
+          href="{{ url_for('resumes') }}"
+          class="main-nav__link {% if request.endpoint in ['resumes','resume_detail'] %}active{% endif %}"
+        >
+          <i class="fas fa-file-alt"></i> Резюме
+          <span class="nav-badge">{{ resume_count }}</span>
+        </a>
+        <a
+          href="{{ url_for('about') }}"
+          class="main-nav__link {% if request.endpoint == 'about' %}active{% endif %}"
+        >
+          <i class="fas fa-school"></i> О школе
+        </a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="{{ url_for('add_resume') }}" class="btn btn--outline btn--sm">
+          <i class="fas fa-upload"></i> Резюме
+        </a>
+        <a
+          href="{{ url_for('publish_vacancy') }}"
+          class="btn btn--accent btn--sm"
+        >
+          <i class="fas fa-plus"></i> Вакансия
+        </a>
+      </div>
+
+      <button class="burger" id="burgerBtn" aria-label="Меню">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="{{ url_for('index') }}" class="mobile-menu__link">
+      <i class="fas fa-home"></i> Главная
+    </a>
+    <a href="{{ url_for('vacancies') }}" class="mobile-menu__link">
+      <i class="fas fa-briefcase"></i> Вакансии
+    </a>
+    <a href="{{ url_for('resumes') }}" class="mobile-menu__link">
+      <i class="fas fa-file-alt"></i> Резюме
+    </a>
+    <a href="{{ url_for('about') }}" class="mobile-menu__link">
+      <i class="fas fa-school"></i> О школе
+    </a>
+    <a href="{{ url_for('publish_vacancy') }}" class="mobile-menu__link">
+      <i class="fas fa-plus"></i> Разместить вакансию
+    </a>
+    <a href="{{ url_for('add_resume') }}" class="mobile-menu__link">
+      <i class="fas fa-upload"></i> Добавить резюме
+    </a>
+  </div>
+</header>

@@ -1,0 +1,52 @@
+<div
+  class="vacancy-card {% if v.is_featured %}vacancy-card--featured{% endif %}"
+>
+  <div class="vacancy-card__left">
+    <div class="vacancy-card__icon">{{ v.icon }}</div>
+  </div>
+  <div class="vacancy-card__body">
+    <div class="vacancy-card__top">
+      <div class="vacancy-card__badges">
+        {% if v.is_new %}<span class="badge badge--new">Новая</span>{% endif %}
+        {% if v.is_urgent %}<span class="badge badge--hot">Срочно</span>{% endif
+        %} {% if v.is_featured %}<span class="badge badge--feat">⭐ Топ</span>{%
+        endif %}
+      </div>
+      <a
+        href="{{ url_for('vacancy_detail', vacancy_id=v.id) }}"
+        class="vacancy-card__title"
+        >{{ v.title }}</a
+      >
+      <div class="vacancy-card__company">
+        <i class="fas fa-building"></i> {{ v.contact_name }}
+      </div>
+    </div>
+
+    <div class="vacancy-card__meta">
+      <span><i class="fas fa-map-marker-alt"></i> {{ v.location }}</span>
+      <span><i class="fas fa-briefcase"></i> {{ v.job_type }}</span>
+      <span><i class="fas fa-graduation-cap"></i> {{ v.experience }}</span>
+    </div>
+
+    <div class="vacancy-card__salary">{{ v.salary_display }}</div>
+
+    <div class="vacancy-card__footer">
+      <span class="vacancy-card__date">
+        <i class="fas fa-clock"></i> {{ v.posted_display }}
+      </span>
+      <div class="vacancy-card__actions">
+        <a
+          href="{{ url_for('vacancy_detail', vacancy_id=v.id) }}"
+          class="btn btn--outline btn--sm"
+          >Подробнее</a
+        >
+        <a
+          href="{{ url_for('apply', vacancy_id=v.id) }}"
+          class="btn btn--primary btn--sm"
+        >
+          <i class="fas fa-paper-plane"></i> Откликнуться
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

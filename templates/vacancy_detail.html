@@ -1,0 +1,196 @@
+{% extends 'base.html' %} {% block title %}{{ vacancy.title }} | Школа №147{%
+endblock %} {% block content %}
+<div class="container" style="padding-top: 30px; padding-bottom: 50px">
+  <nav class="breadcrumb">
+    <a href="{{ url_for('index') }}">Главная</a>
+    <span>/</span>
+    <a href="{{ url_for('vacancies') }}">Вакансии</a>
+    <span>/</span>
+    <span>{{ vacancy.title }}</span>
+  </nav>
+
+  <div class="detail-layout">
+    <!-- MAIN -->
+    <div class="detail-main">
+      <!-- HERO CARD -->
+      <div class="detail-card detail-card--hero">
+        <div class="detail-hero">
+          <div class="detail-hero__icon">{{ vacancy.icon }}</div>
+          <div>
+            <div class="detail-hero__badges">
+              {% if vacancy.is_new %}
+              <span class="badge badge--new">Новая</span>
+              {% endif %} {% if vacancy.is_urgent %}
+              <span class="badge badge--hot">Срочно</span>
+              {% endif %} {% if vacancy.is_featured %}
+              <span class="badge badge--feat">⭐ Топ</span>
+              {% endif %}
+            </div>
+            <h1 class="detail-hero__title">{{ vacancy.title }}</h1>
+            <div class="detail-hero__company">
+              <i class="fas fa-building"></i>
+              {{ vacancy.contact_name }}
+            </div>
+            <div class="detail-hero__salary">{{ vacancy.salary_display }}</div>
+            <div class="detail-hero__meta">
+              <span>
+                <i class="fas fa-map-marker-alt"></i> {{ vacancy.location }}
+              </span>
+              <span>
+                <i class="fas fa-briefcase"></i> {{ vacancy.job_type }}
+              </span>
+              <span>
+                <i class="fas fa-user-graduate"></i> {{ vacancy.experience }}
+              </span>
+              <span>
+                <i class="fas fa-university"></i> {{ vacancy.education }}
+              </span>
+              <span>
+                <i class="fas fa-clock"></i> {{ vacancy.posted_display }}
+              </span>
+              <span>
+                <i class="fas fa-users"></i> Откликов: {{ app_count }}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="detail-hero__cta">
+          <a
+            href="{{ url_for('apply', vacancy_id=vacancy.id) }}"
+            class="btn btn--primary btn--lg"
+          >
+            <i class="fas fa-paper-plane"></i> Откликнуться
+          </a>
+          <a
+            href="{{ url_for('edit_vacancy', vacancy_id=vacancy.id) }}"
+            class="btn btn--outline btn--lg"
+          >
+            <i class="fas fa-edit"></i> Редактировать
+          </a>
+        </div>
+      </div>
+
+      <!-- DESCRIPTION -->
+      <div class="detail-card">
+        <h2 class="detail-section-title">📋 Описание вакансии</h2>
+        <p class="detail-text">{{ vacancy.description }}</p>
+      </div>
+
+      <!-- DUTIES -->
+      <div class="detail-card">
+        <h2 class="detail-section-title">✅ Обязанности</h2>
+        <ul class="detail-list">
+          {% for line in vacancy.duties.split('\n') %} {% if line.strip() %}
+          <li>{{ line.strip() }}</li>
+          {% endif %} {% endfor %}
+        </ul>
+      </div>
+
+      <!-- REQUIREMENTS -->
+      <div class="detail-card">
+        <h2 class="detail-section-title">📌 Требования</h2>
+        <ul class="detail-list">
+          {% for line in vacancy.requirements.split('\n') %} {% if line.strip()
+          %}
+          <li>{{ line.strip() }}</li>
+          {% endif %} {% endfor %}
+        </ul>
+      </div>
+
+      <!-- CONDITIONS -->
+      {% if vacancy.conditions %}
+      <div class="detail-card">
+        <h2 class="detail-section-title">🎁 Условия работы</h2>
+        <ul class="detail-list detail-list--green">
+          {% for line in vacancy.conditions.split('\n') %} {% if line.strip() %}
+          <li>{{ line.strip() }}</li>
+          {% endif %} {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+
+      <!-- DELETE -->
+      <div class="detail-card detail-card--danger">
+        <h2 class="detail-section-title">⚠️ Управление вакансией</h2>
+        <p style="font-size: 14px; color: var(--gray); margin-bottom: 14px">
+          Удалённая вакансия не отображается в списке. Это действие можно
+          отменить через базу данных.
+        </p>
+        <form
+          action="{{ url_for('delete_vacancy', vacancy_id=vacancy.id) }}"
+          method="post"
+          onsubmit="return confirm('Удалить вакансию «{{ vacancy.title }}»?')"
+        >
+          <button class="btn btn--danger btn--sm" type="submit">
+            <i class="fas fa-trash"></i> Удалить вакансию
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside class="detail-sidebar">
+      <!-- CONTACT -->
+      {% if vacancy.contact_name %}
+      <div class="sidebar-card">
+        <h3 class="sidebar-card__title">
+          <i class="fas fa-headset"></i> Контакт
+        </h3>
+        <div class="contact-info">
+          <div class="contact-info__name">{{ vacancy.contact_name }}</div>
+          {% if vacancy.contact_phone %}
+          <a href="tel:{{ vacancy.contact_phone }}" class="contact-info__phone">
+            <i class="fas fa-phone"></i> {{ vacancy.contact_phone }}
+          </a>
+          {% endif %}
+          <div class="contact-info__hours">
+            <i class="fas fa-clock"></i> Пн–Пт 9:00–17:00
+          </div>
+        </div>
+        <a
+          href="{{ url_for('apply', vacancy_id=vacancy.id) }}"
+          class="btn btn--primary btn--block mt-2"
+        >
+          <i class="fas fa-paper-plane"></i> Откликнуться
+        </a>
+      </div>
+      {% endif %}
+
+      <!-- CATEGORY -->
+      <div class="sidebar-card">
+        <h3 class="sidebar-card__title">
+          <i class="fas fa-tag"></i> Категория
+        </h3>
+        <a
+          href="{{ url_for('vacancies', category=vacancy.category) }}"
+          class="category-link"
+        >
+          {{ vacancy.category }}
+        </a>
+      </div>
+
+      <!-- RELATED -->
+      {% if related %}
+      <div class="sidebar-card">
+        <h3 class="sidebar-card__title">
+          <i class="fas fa-briefcase"></i> Похожие вакансии
+        </h3>
+        {% for r in related %}
+        <div class="related-item">
+          <span class="related-item__icon">{{ r.icon }}</span>
+          <div>
+            <a
+              href="{{ url_for('vacancy_detail', vacancy_id=r.id) }}"
+              class="related-item__title"
+              >{{ r.title }}</a
+            >
+            <div class="related-item__salary">{{ r.salary_display }}</div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </aside>
+  </div>
+</div>
+{% endblock %}

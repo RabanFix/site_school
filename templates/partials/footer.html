@@ -1,0 +1,60 @@
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>🏫 МБОУ Школа №147 | Подработка</h3>
+        <p>
+          Официальный портал летнего трудоустройства учеников МБОУ Школа №147 городского округа
+          Самара имени П.М. Еськова.
+        </p>
+        <div class="footer-social">
+          <a href="#" class="social-btn" title="ВКонтакте"
+            ><i class="fab fa-vk"></i
+          ></a>
+          <a href="#" class="social-btn" title="Telegram"
+            ><i class="fab fa-telegram"></i
+          ></a>
+          <a href="#" class="social-btn" title="Сайт школы"
+            ><i class="fas fa-globe"></i
+          ></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Навигация</h4>
+        <ul>
+          <li><a href="{{ url_for('index') }}">Главная</a></li>
+          <li><a href="{{ url_for('vacancies') }}">Вакансии</a></li>
+          <li><a href="{{ url_for('resumes') }}">Резюме</a></li>
+          <li><a href="{{ url_for('about') }}">О школе</a></li>
+          <li>
+            <a href="{{ url_for('publish_vacancy') }}">Разместить вакансию</a>
+          </li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Соискателям</h4>
+        <ul>
+          <li><a href="{{ url_for('add_resume') }}">Добавить резюме</a></li>
+          <li><a href="{{ url_for('vacancies') }}">Все вакансии</a></li>
+          <li><a href="{{ url_for('about') }}">Контакты куратора</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Контакты</h4>
+        <ul>
+          <li><i class="fas fa-phone"></i> +7 (846) 956-47-78</li>
+          <li><i class="fas fa-envelope"></i> shkola147@samara.edu.ru</li>
+          <li>
+            <i class="fas fa-map-marker-alt"></i> Самара, ул. Пятилетки, 14
+          </li>
+          <li><i class="fas fa-clock"></i> Пн–Пт: 8:00–18:00</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span
+        >© {{ current_year }} МБОУ Школа №147 им. П.М. Еськова · Самара</span
+      >
+    </div>
+  </div>
+</footer>
