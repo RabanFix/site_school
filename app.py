@@ -650,5 +650,5 @@ def seed_data():
 if __name__ == '__main__':
     # Получаем порт из переменных окружения (по умолчанию 5000)
     port = int(os.environ.get("PORT", 6000))
-    # Запускаем на 1.1.1.1
-    app.run(host='1.1.1.1', port=port)
+    # Запускаем на 0.0.0.0
+    app.run(host='0.0.0.0', port=port)
