@@ -648,5 +648,7 @@ def seed_data():
 # ───────────────────────── entry point ──────────────────────────
 
 if __name__ == '__main__':
-    app = create_app('development')
-    app.run(debug=True, port=8888)
+    # Получаем порт из переменных окружения (по умолчанию 5000)
+    port = int(os.environ.get("PORT", 6000))
+    # Запускаем на 1.1.1.1
+    app.run(host='1.1.1.1', port=port)
