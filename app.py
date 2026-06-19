@@ -150,10 +150,6 @@ def create_app(config_name='default'):
     return app
 
 
-# Gunicorn ищет объект `app` в этом модуле (команда: gunicorn app:app)
-app = create_app(os.environ.get('FLASK_CONFIG', 'default'))
-
-
 # ───────────────────────── routes ───────────────────────────────
 
 def register_routes(app):
@@ -647,6 +643,10 @@ def seed_data():
 
     db.session.commit()
     print('База данных заполнена тестовыми данными')
+
+
+# Gunicorn ищет объект `app` в этом модуле (команда: gunicorn app:app)
+app = create_app(os.environ.get('FLASK_CONFIG', 'default'))
 
 
 # ───────────────────────── entry point ──────────────────────────
