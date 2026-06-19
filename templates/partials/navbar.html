@@ -23,27 +23,27 @@
 
       <nav class="main-nav">
         <a
-          href="#"
+          href="{{ url_for('index') }}"
           class="main-nav__link {% if request.endpoint == 'index' %}active{% endif %}"
         >
           <i class="fas fa-home"></i> Главная
         </a>
         <a
-          href="#"
+          href="{{ url_for('vacancies') }}"
           class="main-nav__link {% if request.endpoint in ['vacancies','vacancy_detail'] %}active{% endif %}"
         >
           <i class="fas fa-briefcase"></i> Вакансии
           <span class="nav-badge">{{ vacancy_count }}</span>
         </a>
         <a
-          href="#"
+          href="{{ url_for('resumes') }}"
           class="main-nav__link {% if request.endpoint in ['resumes','resume_detail'] %}active{% endif %}"
         >
           <i class="fas fa-file-alt"></i> Резюме
           <span class="nav-badge">{{ resume_count }}</span>
         </a>
         <a
-          href="#"
+          href="{{ url_for('about') }}"
           class="main-nav__link {% if request.endpoint == 'about' %}active{% endif %}"
         >
           <i class="fas fa-school"></i> О школе
@@ -51,11 +51,11 @@
       </nav>
 
       <div class="header-actions">
-        <a href="#">
+        <a href="{{ url_for('add_resume') }}" class="btn btn--outline btn--sm">
           <i class="fas fa-upload"></i> Резюме
         </a>
         <a
-          href="#"
+          href="{{ url_for('publish_vacancy') }}"
           class="btn btn--accent btn--sm"
         >
           <i class="fas fa-plus"></i> Вакансия
@@ -70,22 +70,22 @@
 
   <!-- Mobile menu -->
   <div class="mobile-menu" id="mobileMenu">
-    <a href="#">
+    <a href="{{ url_for('index') }}" class="mobile-menu__link">
       <i class="fas fa-home"></i> Главная
     </a>
-    <a href="#">
+    <a href="{{ url_for('vacancies') }}" class="mobile-menu__link">
       <i class="fas fa-briefcase"></i> Вакансии
     </a>
-    <a href="#">
+    <a href="{{ url_for('resumes') }}" class="mobile-menu__link">
       <i class="fas fa-file-alt"></i> Резюме
     </a>
-    <a href="#">
+    <a href="{{ url_for('about') }}" class="mobile-menu__link">
       <i class="fas fa-school"></i> О школе
     </a>
-    <a href="#">
+    <a href="{{ url_for('publish_vacancy') }}" class="mobile-menu__link">
       <i class="fas fa-plus"></i> Разместить вакансию
     </a>
-    <a href="#">
+    <a href="{{ url_for('add_resume') }}" class="mobile-menu__link">
       <i class="fas fa-upload"></i> Добавить резюме
     </a>
   </div>
